@@ -201,6 +201,8 @@ public class Case1 : MonoBehaviour {
 
 ## 案例二
 
+![](https://nts.newbieol.com/static/k25/03_%E5%BC%95%E6%93%8E%E9%AB%98%E7%BA%A7%E8%BF%9B%E9%98%B6/iTween%E7%BB%BC%E5%90%88%E6%A1%88%E4%BE%8B/images/Image.png)
+
 ```c#
 using UnityEngine;
 using System.Collections;
