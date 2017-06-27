@@ -199,5 +199,64 @@ public class Case1 : MonoBehaviour {
 }
 ```
 
+## 案例二
+
+```c#
+using UnityEngine;
+using System.Collections;
+using UnityEngine.UI;
+
+public class Ballbacks : MonoBehaviour {
+
+    private Text text1;    
+    Vector3 v;
+    private Button btn;
+	// Use this for initialization
+    void Awake()
+    {
+        text1 = GameObject.Find("Canvas/Text").GetComponent<Text>();
+        btn = GameObject.Find("Canvas/Button").GetComponent<Button>();
+        btn.gameObject.SetActive(false);
+        btn.onClick.AddListener(OnButton);
+        v = this.gameObject.transform.position;
+
+    }
+	void Start () {
+        iTween.MoveBy(this.gameObject, iTween.Hash("y", 4, "time", 2.5f, "easetype", iTween.EaseType.easeInOutExpo,
+                                       "onstart", "showText", "onstarttarget", this.gameObject, "onstartparams", "上升开始..",
+                                       "oncomplete", "showText", "oncompletetarget", this.gameObject, "oncompleteparams", "上升结束.."));
+
+        iTween.RotateBy(this.gameObject, iTween.Hash("z", 0.25f, "time", 1f,"delay", 3.5f, "easetype", iTween.EaseType.easeInBack,
+                                        "onstart", "showText", "onstarttarget", this.gameObject, "onstartparams", "旋转开始..",
+                                       "oncomplete", "showText", "oncompletetarget", this.gameObject, "oncompleteparams", "旋转结束.."));
+        iTween.MoveTo(this.gameObject, iTween.Hash("y",1f, "time", 2.5f, "delay", 5.5f, "easetype", iTween.EaseType.easeInQuart,
+                                        "onstart", "showText", "onstarttarget", this.gameObject, "onstartparams", "下降开始..",
+                                       "oncomplete", "showText", "oncompletetarget", this.gameObject, "oncompleteparams", "下降结束.."));
+        iTween.ShakePosition(Camera.main.gameObject, iTween.Hash("amount", new Vector3(0.5f,0.5f,0), "time", 1f, "delay", 8.1f,
+                                   "onstart", "showText", "onstarttarget", this.gameObject, "onstartparams", "震动开始..",
+                                  "oncomplete", "ShowTextStop", "oncompletetarget", this.gameObject, "oncompleteparams", "所有运动结束.."));
+	}
+	
+    void showText(string t)
+    {
+        text1.text += t + "\n";
+    }
+    void ShowTextStop(string t)
+    {
+        text1.text += t + "\n";
+        btn.gameObject.SetActive(true);
+    }
+
+    public void OnButton()
+    {
+        this.gameObject.transform.position = v;
+        this.gameObject.transform.rotation = Quaternion.identity;
+        text1.text = "";
+        btn.gameObject.SetActive(false);
+
+        Start();
+    }	
+}
+```
 
 
