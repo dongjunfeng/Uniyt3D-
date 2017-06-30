@@ -261,4 +261,119 @@ public class Ballbacks : MonoBehaviour {
 }
 ```
 
+## 案例三
 
+![](https://nts.newbieol.com/static/k25/03_%E5%BC%95%E6%93%8E%E9%AB%98%E7%BA%A7%E8%BF%9B%E9%98%B6/iTween%E7%BB%BC%E5%90%88%E6%A1%88%E4%BE%8B/images/Image3.png)
+
+代码如下：
+
+#### 小方块变颜色控制
+
+```c#
+
+public class ChangeColor : MonoBehaviour {
+    //记录开始时的颜色
+    public Color StartColor;
+    //监测物体是否被点击过
+    bool isActive;
+    private void Start()
+    {
+        StartColor = this.gameObject.GetComponent<MeshRenderer>().material.color;
+    }
+
+    private void OnMouseEnter()
+    {
+        if (!isActive)  //地板没有被点击的时候
+       {
+            if(!CreateFloor.isBallmove)   //当小球没有运动的时候
+           {
+                iTween.ColorTo(this.gameObject, Color.green, 0.1f);
+                iTween.MoveTo(this.gameObject, iTween.Hash("y", 0.4f, "time", 0.1f));
+            }
+            else
+            {
+                iTween.ColorTo(this.gameObject, Color.yellow, 0.1f);
+                iTween.MoveTo(this.gameObject, iTween.Hash("y", 0.4f, "time", 0.1f));
+            }
+        }
+    }
+    private void OnMouseExit()
+    {
+        if(!isActive)       //鼠标退出方块时，没有被点击过的颜色才变回原来颜色 
+        {
+            iTween.ColorTo(this.gameObject, StartColor, 0.1f);
+            iTween.MoveTo(this.gameObject, iTween.Hash("y", 0, "time", 0.1f));
+        }
+       
+    }
+    private void OnMouseDown()
+    {
+        if(!CreateFloor.isBallmove)   //当小球没有运动的时候地板才能被点击
+        {
+            isActive = true;
+            iTween.ColorTo(this.gameObject, Color.red, 0.1f);
+            iTween.MoveTo(this.gameObject, iTween.Hash("y", 0, "time", 0.1f));
+            SendMessageUpwards("BallMoveTarget", this.gameObject);  //向父级发送消息
+        }
+      
+    }
+    void Deactivate()
+    {
+        isActive = false;
+        iTween.ColorTo(this.gameObject, StartColor, .4f);
+    }
+
+}
+```
+#### 创建地板和控制球移动
+
+```c#
+public class CreateFloor : MonoBehaviour {
+
+    public GameObject floor;
+    public int row = 9;   //创建地板的行数
+    public int lie = 9;   //创建地板的列数
+
+    public GameObject ball;
+    private void Awake()
+    {
+        floor = Resources.Load("floor")as GameObject;      
+    }
+    void Start () {
+        //克隆小球生成到地板中央位置
+        ball = GameObject.Instantiate(Resources.Load("Sphere"),new Vector3(row/2,0.7f,lie/2), Quaternion.identity) as GameObject;
+
+        for (int i = 0; i < row; i++)
+        {
+            for (int j = 0; j < lie; j++)
+            {
+                GameObject clone = GameObject.Instantiate(floor, new Vector3(j, 0, i), Quaternion.identity)as GameObject;
+                clone.transform.SetParent(Camera.main.transform);
+                if ((i + j) % 2 == 0)
+                {
+                    //偶数位置的物体变黑色
+                    clone.GetComponent<MeshRenderer>().material.color = Color.black;
+                }
+            }
+        }
+	}
+    GameObject currentTarget;
+    public static bool isBallmove = false;  // 标记求是否是运动状态
+    public void BallMoveTarget(GameObject target)   //传进来被点击的地板
+    {
+        if (currentTarget != null && target != currentTarget)   //小球所在的地板被点击，下一次点击的不是小球所在地板                       
+        {
+            currentTarget.SendMessage("Deactivate");    //发送消息，让小球可以移动
+       }
+        currentTarget = target;
+        isBallmove = true;
+        float moveTime = Vector3.Distance(ball.transform.position, target.transform.position) / 10;  //通过距离换算时间
+        iTween.MoveBy(ball, iTween.Hash("x", (target.transform.position.x - ball.transform.position.x), "time",                                                                                               moveTime,"easetype",iTween.EaseType.linear)); //移动小球X轴
+        iTween.MoveBy(ball, iTween.Hash("z", (target.transform.position.z - ball.transform.position.z), "time", moveTime, "delay",                          moveTime, "easetype", iTween.EaseType.linear,"oncomplete","Reset","oncompletetarget",this.gameObject));//移动小球Z轴
+    }
+    private void Reset()   //小球移动完成调用该方法
+    {
+        isBallmove = false;
+    }
+}
+```
