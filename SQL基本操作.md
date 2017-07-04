@@ -331,5 +331,5 @@ SELECT * FROM 表名称 WHERE 列名称 LIKE 'a%'
 
 
 参考文献:
-SQL语法[](http://www.w3school.com.cn/sql/sql_syntax.asp)
+SQL语法 (http://www.w3school.com.cn/sql/sql_syntax.asp)
 
