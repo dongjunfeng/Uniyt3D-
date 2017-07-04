@@ -330,5 +330,6 @@ SELECT * FROM 表名称 WHERE 列名称 LIKE 'a%'
 从表中选取该列的值以“a”开头的所有记录
 
 
-
+参考文献:
+SQL语法[](http://www.w3school.com.cn/sql/sql_syntax.asp)
 
