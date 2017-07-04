@@ -321,6 +321,8 @@ SELECT DISTINCT
 
 可返回唯一不同的值
 
+语句
+
 ```
 SELECT * FROM 表名称 WHERE 列名称 LIKE 'a%'
 ```
