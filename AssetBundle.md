@@ -78,7 +78,7 @@ public class AssetbundleDemo : MonoBehaviour {
 左键点击WAMP图标-启动所有服务，开启服务器。左键点击WAMP图标-切换到在线状态。
 左键点击WAMP图标-www目录，新建一个文件夹并命名为Unity,拖入一张图片（这里以link.png为例）。
 注意：如果图标没有变成绿色，右击计算机点击管理，然后点击服务，将安装的本地服务器MySQL改成手动
-打开浏览器，输入http://127.0.0.1/Unity/link.png并按回车，浏览器中显示了我们刚刚上传的图片，如图下图所示。127.0.0.1是本机IP地址，后面的路径则是www文件夹下的路径。将ABs文件夹复制至www下的Unity文件夹。
+打开浏览器，输入http://127.0.0.1/Unity/link.png 并按回车，浏览器中显示了我们刚刚上传的图片，如图下图所示。127.0.0.1是本机IP地址，后面的路径则是www文件夹下的路径。将ABs文件夹复制至www下的Unity文件夹。
 
 ![](https://nts.newbieol.com/static/k25/03_%E5%BC%95%E6%93%8E%E9%AB%98%E7%BA%A7%E8%BF%9B%E9%98%B6/%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86%E5%8F%8AHTTP%E5%BA%94%E7%94%A8/AssetBundle/images/Image5.png0)
 
