@@ -225,7 +225,108 @@ public class CreatXml : MonoBehaviour {
 }
 ```
 
+#### 利用XML序列化反序列知识储存PlayerData玩家信息类，(exp)经验值每分钟自动增长50，（level）等级每提一级,升级所需（needExp初始化值100）经验提高百分之25。
 
+```c#
+using UnityEngine;
+using System.Collections;
+using System.Xml.Serialization;
+using System.IO;
+
+public class XmlPlayer : MonoBehaviour {
+
+    XmlSerializer xmlserializer;              
+    public GameObject cube;        //游戏对象   
+    PlayerData data;               //玩家对象  
+    string path;
+	void Start () {
+        data = new PlayerData();
+        cube = GameObject.Find("Cube");
+        path = Application.dataPath + "/Player.xml";    //创建xml文件
+        InvokeRepeating("Upgrade", 0f, 60f);            //异步每60秒调用Upgrade方法
+	}
+	void OnGUI()
+    {
+        if(GUI.Button(new Rect(0,0,100,30),"SaveData"))
+        {                 
+            XmlData(data);
+        }
+        if(GUI.Button(new Rect (0,40,100,30), "LoadData"))
+        {
+            LoadData();
+        }
+    }
+	void XmlData(PlayerData data)
+    {
+        StreamWriter str;                     //流/写入器对象
+        FileInfo info = new FileInfo(path);     //创建path路径下的文件对象
+        if(!info.Exists)                         //判断路径是否存在文件，没有创建，有的话删除再创建
+        {
+            str = info.CreateText();
+        }
+        else
+        {
+            info.Delete();
+            str = info.CreateText();
+        }
+        xmlserializer = new XmlSerializer(typeof(PlayerData));    //XmlSerializer对象并指定序列化类型
+
+        xmlserializer.Serialize(str, data);                    //序列化方法（传递流/写入器对象，和玩家数据对象）
+        str.Close();                        //关闭流
+    } 
+    void LoadData()
+    {
+        xmlserializer = new XmlSerializer(typeof(PlayerData));          //指定需要操作的对象类型
+
+        FileStream fs = new FileStream(path, FileMode.Open);              //打开文件流（filepath路径中的文件）
+
+        PlayerData player = (PlayerData)xmlserializer.Deserialize(fs);     //反序列化
+       
+        print(player.Exp + "," + player.Level + "," + player.NeedExp);
+       
+    }
+
+    void Upgrade()         //异步
+    {
+        data.Exp += 50;
+        if (data.Exp >= data.NeedExp)
+        {
+            data.Level += 1;
+            data.NeedExp *= 1.25f;
+            data.Exp = 0;
+        }
+    }
+}
+
+public class PlayerData   //玩家对象
+{
+    private int exp =0;
+
+    public int Exp
+    {
+      get { return exp; }
+      set { exp = value; }
+    }
+
+    private int level =0;
+
+    public int Level
+    {
+      get { return level; }
+      set { level = value; }
+    }
+
+    private float needExp = 100;
+
+    public float NeedExp
+    {
+      get { return needExp; }
+      set { needExp = value; }
+    }
+  
+}
+
+```
 
 
 
