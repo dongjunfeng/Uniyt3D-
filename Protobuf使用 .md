@@ -391,6 +391,8 @@ public class ProtobufDeme : MonoBehaviour {
         }
     }
 }
+```
+
 * 5.完成序列化和反序列化，并且在 path = "D://PersonData"中生成了一个PersonData.proto的文件
 
 
