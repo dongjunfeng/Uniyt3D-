@@ -123,11 +123,17 @@ Licenses 可无限制任务30天或者100人免费，这个可以点击用户头
 
 * 3.在deploy文件中有一个PhotonServer.config文件，用编辑软件打开（visual studio亦可），进行编辑。
 
-  1. 在LoadBalancing (MyCloud)内部找到一个TCPListener标签项，定义端口号和server的名字。这是使用TCP方式通讯的配置（端口号是测试后定义的，读者可根据配置文件和需求自己定义），
+ 1. 在LoadBalancing (MyCloud)内部找到一个TCPListener标签项，复制一个，然后定义端口号和OverrideApplication = 服务端项目名称的名字。这是使用TCP方式通讯的配置（端口号是测试后定义的，读者可根据配置文件和需求自己定义），
 
 ![](http://img.blog.csdn.net/20170316123537809?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvSmFzb25NYTE5OTE=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center)
 
-  2.在Applications内部添加一个Application标签项，修改：1、server名字2、指定目标文件夹：第2步在deploy中创建的文件夹3、项目名称4、项目的“命名空间”.“类名”。配置完毕后保存
+ 2.在Applications内部添加一个Application标签项，修改：
+ 配置PhotonServer.config文件如下:
+* Name:项目名字
+* BaseDirectory:根目录，deploy文件夹下为基础目录
+* Assembly ：是在生成的类库中的bin目录下与我们项目名称相同的.dll文件的名字
+* Type:是主类的全称，在这里是：MyServer.MyApplication，一定要包括命名空间
+* EnableAutoRestart：是否是自动启动，表示当我们替换服务器文件时候，不用停止服务器，替换后photon会自动加载文件
 
 ![](http://img.blog.csdn.net/20170316123541716?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvSmFzb25NYTE5OTE=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center)
 
