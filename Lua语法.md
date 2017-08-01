@@ -482,4 +482,89 @@ for i,v in pairs(tt) do    --  当index不连续的时候，也可以完全遍�
     print( tt[i] )         --打印test3  test4  test5
 end
 ```
+### 表相关的函数
+
+* 1.table.concat 把表中所有数据连成一个字符串
+```lua
+local string_concat = {"string", "int", "char", "float", "double"}  
+local _tempStore_string = table.concat(string_concat,"-",3);  -- 最后一个参数表示开始的下标,也可以只写表名，可以将表中的内容组成一个字符串
+print(_tempStore_string)      --打印结果char-float-double
+```
+* 2,table.insert 向指定位置插入一个数
+```lua
+local string_concat = {"string", "int", "char", "float", "double"}  
+table.insert(string_concat,5,"3243");      --在索引为5的位置处插入一个“3243”
+for index,value in pairs(string_concat) do
+    print(index,value)
+end
+```
+* 3,table.remove 移除指定位置的数据
+```lua
+local string_table = {"string", "int", "char", "float", "double"}  
+table.remove(string_table,4);               --将索引为4的内容移除
+for index,value in pairs(string_table) do
+    print(index,value)
+end
+```
+* 4,table.sort 排序
+```lua
+local string_table = {1,4,2,5,3}    
+for index = 1,table.getn(string_table) do
+	print ( tostring( string_table[index]) )
+end
+print ( "\n" )
+table.sort(string_table);         --排序，将表默认从小到大排序，如果表内容都为字符串，将按照首字母先后排序，不能字符串和数字一起排序
+table.sort(concat_table,function(v1,v2) return v1 > v2 end)  --将表从大到小排序
+
+for index = 1,table.getn(string_table) do
+	print ( tostring( string_table[index]) )
+end
+print ( "\n" )
+```
+
+### 通过表来实现面向对象
+
+* 通过表来实现面向对象
+```lua
+Buff={life=100}  --申明Buff 表并定义life对象
+
+function Buff.getBuff(self,a)
+  self.life = self.life+a
+end
+
+function Buff:getBuff(a)
+  self.life = self.life+a
+end
+
+Buff:getBuff(80) -- 冒号的调用方式
+print(Buff.life)     --打印180
+
+Buff.getBuff(Buff,80) -- 点号的调用方式
+print(Buff.life)   --打印260，因为上面的程序已经将表中的life变成了180
+```
+
+### 通过常见的控制程序实现continue功能
+```lua
+for insert = 1,10 do
+	while true do
+		if insert == 5 then
+			break
+		end
+		print(insert)
+		break;
+	end
+end
+--打印的结果跳过了5
+```
+
+
+
+
+
+
+
+
+
+
+
 
