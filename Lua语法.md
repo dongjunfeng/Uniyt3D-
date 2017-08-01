@@ -528,21 +528,21 @@ print ( "\n" )
 ```lua
 Buff={life=100}  --申明Buff 表并定义life对象
 
-function Buff.getBuff(self,a)
-  self.life = self.life+a
+function Buff.getBuff(self,a)    --self是自己的意思                              
+  self.life = self.life+a
 end
 
 function Buff:getBuff(a)
   self.life = self.life+a
 end
 
-Buff:getBuff(80) -- 冒号的调用方式
+Buff:getBuff(80) -- 冒号的调用方式，
 print(Buff.life)     --打印180
 
 Buff.getBuff(Buff,80) -- 点号的调用方式
 print(Buff.life)   --打印260，因为上面的程序已经将表中的life变成了180
 ```
-
+__注意：定义的时候冒号默认接收self参数，调用的时候冒号默认传递调用者自己为参数，而句号要显示传递或接收self参数__
 ### 通过常见的控制程序实现continue功能
 ```lua
 for insert = 1,10 do
